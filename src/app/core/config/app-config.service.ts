@@ -1,0 +1,48 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { HttpBackend, HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+
+const DEFAULT_CONFIG = {
+	apiUrl: '',
+	isQa: false,
+}
+
+@Injectable({ providedIn: 'root' })
+export class AppConfigService {
+	private config: any
+
+	constructor(private httpBackend: HttpBackend) {}
+
+	public loadConfig() {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		return new Promise<void>((res, _rej) => {
+			const http = new HttpClient(this.httpBackend)
+
+			http.get('./assets/config.json').subscribe({
+				next: (config: object) => {
+					const urlVariable: { apiUrl: string; isQa: boolean } =
+						JSON.parse(JSON.stringify(config))
+					this.config = { ...urlVariable }
+					res()
+				},
+				error: () => {
+					this.config = DEFAULT_CONFIG
+					console.log('aca', this.config)
+					res()
+				},
+			})
+		})
+	}
+
+	public getConfig() {
+		return this.config
+	}
+
+	public getConfigByKey(key: string) {
+		return this.config[key]
+	}
+}
+
+export function initializeApp(appConfig: AppConfigService) {
+	return (): Promise<void> => appConfig.loadConfig()
+}

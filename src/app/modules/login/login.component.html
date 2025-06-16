@@ -1,0 +1,28 @@
+<p-card>
+	<ng-template #title> Login </ng-template>
+	<div class="flex flex-col gap-2" [formGroup]="formGroup">
+		<input
+			placeholder="email"
+			type="text"
+			pInputText
+			formControlName="email"
+			pValidateOnly="true"
+			[pKeyFilter]="emailRegExp" />
+		<p-password
+			placeholder="password"
+			[feedback]="false"
+			[toggleMask]="true"
+			formControlName="clave" />
+	</div>
+	<ng-template #footer>
+		<div class="mt-1">
+			<p-button
+				[loading]="loading()"
+				(onClick)="login()"
+				label="Entrar"
+				severity="info"
+				class="w-full"
+				styleClass="w-full" />
+		</div>
+	</ng-template>
+</p-card>
