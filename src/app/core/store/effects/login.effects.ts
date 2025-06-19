@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core'
-import { Router } from '@angular/router'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, map, mergeMap, of } from 'rxjs'
 import { ApiService } from '../../api/api.service'
@@ -11,6 +10,7 @@ import {
 	loginSuccess,
 	logout,
 	logoutSuccess,
+	setUsuario,
 } from '../actions'
 
 @Injectable()
@@ -18,7 +18,6 @@ export class LoginEffects {
 	private actions$ = inject(Actions)
 	private apiService = inject(ApiService)
 	private authService = inject(AuthService)
-	private router = inject(Router)
 
 	login$ = createEffect(() =>
 		this.actions$.pipe(
@@ -27,12 +26,18 @@ export class LoginEffects {
 				this.apiService.login(email, clave).pipe(
 					map((auth: Auth) => {
 						this.authService.setAccessValues(auth)
-						this.router.navigate([''])
-						return loginSuccess()
+						return setUsuario({ usuario: auth.user })
 					}),
 					catchError(error => of(loginError({ error }))),
 				),
 			),
+		),
+	)
+
+	setUsuario$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(setUsuario),
+			map(() => loginSuccess()),
 		),
 	)
 

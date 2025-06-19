@@ -27,7 +27,6 @@ export class AppConfigService {
 				},
 				error: () => {
 					this.config = DEFAULT_CONFIG
-					console.log('aca', this.config)
 					res()
 				},
 			})

@@ -1,4 +1,8 @@
-import { ActionReducerMap } from '@ngrx/store'
+import {
+	ActionReducerMap,
+	createFeatureSelector,
+	createSelector,
+} from '@ngrx/store'
 import * as reducers from '@src/app/core/store/reducers'
 
 export interface AppState {
@@ -8,3 +12,9 @@ export interface AppState {
 export const appReducers: ActionReducerMap<AppState> = {
 	login: reducers.LoginReducer,
 }
+
+//SELECTORS
+export const selectRol = createSelector(
+	createFeatureSelector<reducers.LoginState>('login'),
+	state => state.usuario?.rol,
+)

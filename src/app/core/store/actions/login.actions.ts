@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store'
+import { Usuario } from '../../interfaces/interfaces'
 
 export const login = createAction(
 	'[Auth] Login',
@@ -15,3 +16,8 @@ export const loginError = createAction(
 export const logout = createAction('[Auth] Logout')
 
 export const logoutSuccess = createAction('[Auth] LogoutSuccess')
+
+export const setUsuario = createAction(
+	'[Auth] Set Usuario',
+	props<{ usuario: Usuario }>(),
+)

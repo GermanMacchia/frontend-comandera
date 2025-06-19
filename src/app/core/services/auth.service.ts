@@ -33,8 +33,7 @@ export class AuthService {
 	}
 
 	private settlePermissions(accessValues: Auth) {
-		// this.auth.set(accessValues) //realmente lo necesito?
-		this.permissions.loadPermissions([accessValues.rol])
+		this.permissions.loadPermissions([accessValues.user.rol.nombre])
 		this.isPermissionGranted.set(true)
 		this.router.navigate([''])
 	}

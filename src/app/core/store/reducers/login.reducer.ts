@@ -1,17 +1,23 @@
 import { Action, createReducer, on } from '@ngrx/store'
 
-import { login, loginError, loginSuccess } from '../actions'
+import { Usuario } from '../../interfaces/interfaces'
+import { login, loginError, loginSuccess, setUsuario } from '../actions'
 
+//STATE
 export interface LoginState {
 	loading: boolean
 	error: any
+	usuario: Usuario | null
 }
 
+//INITIAL
 export const LoginInitialState: LoginState = {
 	loading: false,
 	error: null,
+	usuario: null,
 }
 
+//REDUCER
 const _LoginReducer = createReducer(
 	LoginInitialState,
 
@@ -29,6 +35,11 @@ const _LoginReducer = createReducer(
 		...state,
 		loading: false,
 		error: error?.error,
+	})),
+
+	on(setUsuario, (state, { usuario }) => ({
+		...state,
+		usuario,
 	})),
 )
 
