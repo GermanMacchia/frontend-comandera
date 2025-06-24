@@ -6,8 +6,8 @@ import {
 	signal,
 } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { selectRol } from '@src/app/app.reducers'
 import { Mesa } from '@src/app/core/interfaces/interfaces'
+import { selectAreas } from '@src/app/core/store/selectors'
 
 import { ProgressSpinnerModule } from 'primeng/progressspinner'
 @Component({
@@ -25,7 +25,10 @@ export class MesasDisplayComponent implements OnInit {
 	mesas = signal<Mesa[]>([])
 
 	ngOnInit(): void {
-		this.store.select(selectRol).subscribe(console.log)
+		this.store.select(selectAreas).subscribe(areas => {
+			if (!areas.length) return
+			this.mesas.set(areas[0].mesas)
+		})
 	}
 
 	// mesas = [

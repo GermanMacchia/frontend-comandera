@@ -1,4 +1,8 @@
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import {
+	HTTP_INTERCEPTORS,
+	provideHttpClient,
+	withInterceptorsFromDi,
+} from '@angular/common/http'
 import {
 	APP_INITIALIZER,
 	ApplicationConfig,
@@ -29,11 +33,11 @@ import {
 	LoadPermissionsService,
 	permissionsFactory,
 } from './core/config/load-permissions.service'
+import { AuthInterceptor } from './core/interceptors/auth.interceptor'
 import { effectsArray } from './core/store/effects'
 
 export const appConfig: ApplicationConfig = {
 	providers: [
-		provideHttpClient(withInterceptorsFromDi()),
 		LoadPermissionsService,
 		NgxPermissionsService,
 		{
@@ -43,11 +47,17 @@ export const appConfig: ApplicationConfig = {
 			multi: true,
 		},
 		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: AuthInterceptor,
+			multi: true,
+		},
+		{
 			provide: APP_INITIALIZER,
 			useFactory: permissionsFactory,
 			deps: [LoadPermissionsService, NgxPermissionsService],
 			multi: true,
 		},
+		provideHttpClient(withInterceptorsFromDi()),
 		importProvidersFrom(NgxPermissionsModule.forRoot()),
 		provideAnimationsAsync(),
 		provideStore(appReducers),

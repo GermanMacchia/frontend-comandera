@@ -13,11 +13,11 @@ export const loginError = createAction(
 	props<{ error: any }>(),
 )
 
-export const logout = createAction('[Auth] Logout')
-
-export const logoutSuccess = createAction('[Auth] LogoutSuccess')
-
 export const setUsuario = createAction(
 	'[Auth] Set Usuario',
 	props<{ usuario: Usuario }>(),
 )
+
+export const logoutSuccess = createAction('[Auth] LogoutSuccess')
+
+export const logout = createAction('[Auth] Logout')

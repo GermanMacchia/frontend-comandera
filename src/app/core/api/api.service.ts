@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { AppConfigService } from '../config/app-config.service'
 import { Auth } from '../interfaces/interfaces'
@@ -10,12 +10,18 @@ export class ApiService {
 	private http = inject(HttpClient)
 	private config = inject(AppConfigService)
 
+	getApiUrl = () => this.config.getConfigByKey('apiUrl')
+
 	login = (email: string, clave: string) =>
-		this.http.post<Auth>(
-			this.endpoints.auth.login(this.config.getConfigByKey('apiUrl')),
-			{
-				email,
-				clave,
-			},
-		)
+		this.http.post<Auth>(this.endpoints.auth.login(this.getApiUrl()), {
+			email,
+			clave,
+		})
+
+	getArea = (usuario_id: number) => {
+		const params = new HttpParams().set('usuario_id', usuario_id)
+		return this.http.get<any>(this.endpoints.areas(this.getApiUrl()), {
+			params,
+		})
+	}
 }

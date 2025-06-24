@@ -4,7 +4,11 @@ import { catchError, map, mergeMap, of } from 'rxjs'
 import { ApiService } from '../../api/api.service'
 import { Auth } from '../../interfaces/interfaces'
 import { AuthService } from '../../services/auth.service'
+
+import { Store } from '@ngrx/store'
+import { RolesUsuarios } from '../../interfaces/enums'
 import {
+	dataLoading,
 	login,
 	loginError,
 	loginSuccess,
@@ -18,6 +22,7 @@ export class LoginEffects {
 	private actions$ = inject(Actions)
 	private apiService = inject(ApiService)
 	private authService = inject(AuthService)
+	private store = inject(Store)
 
 	login$ = createEffect(() =>
 		this.actions$.pipe(
@@ -37,7 +42,19 @@ export class LoginEffects {
 	setUsuario$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(setUsuario),
-			map(() => loginSuccess()),
+			map(data => {
+				this.store.dispatch(loginSuccess())
+
+				const { usuario } = data
+				const nombreRol = usuario.rol.nombre
+
+				if (nombreRol === RolesUsuarios.ADMINISTRADOR)
+					return dataLoading({
+						id: usuario.id,
+						rol: nombreRol,
+					})
+				else return dataLoading({ id: usuario.id, rol: nombreRol })
+			}),
 		),
 	)
 
