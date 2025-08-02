@@ -2,64 +2,63 @@ import {
 	HTTP_INTERCEPTORS,
 	provideHttpClient,
 	withInterceptorsFromDi,
-} from '@angular/common/http'
+} from '@angular/common/http';
 import {
-	APP_INITIALIZER,
 	ApplicationConfig,
 	importProvidersFrom,
-} from '@angular/core'
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
-import { provideRouter, withInMemoryScrolling } from '@angular/router'
+	provideAppInitializer,
+	provideBrowserGlobalErrorListeners,
+	provideZonelessChangeDetection,
+} from '@angular/core';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { routes } from './app.routes';
 
 // ngrx
-import { provideEffects } from '@ngrx/effects'
-import { provideStore } from '@ngrx/store'
-import { provideStoreDevtools } from '@ngrx/store-devtools'
+import { provideEffects } from '@ngrx/effects';
+import { provideStore } from '@ngrx/store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { appReducers } from '@src/app/app.reducers';
 
 //primeng
-import Aura from '@primeng/themes/aura'
-import { providePrimeNG } from 'primeng/config'
+import { provideAnimations } from '@angular/platform-browser/animations';
+import Aura from '@primeng/themes/aura';
+import { initializeApp } from '@src/app/core/config/app-config.service';
+import { AuthInterceptor } from '@src/app/core/interceptors/auth.interceptor';
 
-//ngx-permissions
-import { NgxPermissionsModule, NgxPermissionsService } from 'ngx-permissions'
-
-import { appReducers } from './app.reducers'
-import { routes } from './app.routes'
 import {
-	AppConfigService,
-	initializeApp,
-} from './core/config/app-config.service'
-import {
-	LoadPermissionsService,
-	permissionsFactory,
-} from './core/config/load-permissions.service'
-import { AuthInterceptor } from './core/interceptors/auth.interceptor'
-import { effectsArray } from './core/store/effects'
+	NgxPermissionsModule,
+	NgxPermissionsService,
+	USE_PERMISSIONS_STORE,
+} from 'ngx-permissions';
+import { MessageService } from 'primeng/api';
+import { providePrimeNG } from 'primeng/config';
+import { initializePermissions } from './core/config/load-permissions.service';
+import { effectsArray } from '@src/app/core/store/effects'
 
 export const appConfig: ApplicationConfig = {
 	providers: [
-		LoadPermissionsService,
-		NgxPermissionsService,
-		{
-			provide: APP_INITIALIZER,
-			useFactory: initializeApp,
-			deps: [AppConfigService],
-			multi: true,
-		},
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: AuthInterceptor,
 			multi: true,
 		},
+		MessageService,
+		NgxPermissionsService,
 		{
-			provide: APP_INITIALIZER,
-			useFactory: permissionsFactory,
-			deps: [LoadPermissionsService, NgxPermissionsService],
-			multi: true,
+			provide: USE_PERMISSIONS_STORE,
+			useValue: true,
 		},
-		provideHttpClient(withInterceptorsFromDi()),
+		provideAppInitializer(initializePermissions),
+		provideAppInitializer(initializeApp),
+		provideBrowserGlobalErrorListeners(),
+		provideZonelessChangeDetection(),
 		importProvidersFrom(NgxPermissionsModule.forRoot()),
-		provideAnimationsAsync(),
+		provideRouter(
+			routes,
+			withInMemoryScrolling({ scrollPositionRestoration: 'top' })
+		),
+		provideHttpClient(withInterceptorsFromDi()),
+		provideAnimations(),
 		provideStore(appReducers),
 		provideEffects(effectsArray),
 		provideStoreDevtools({
@@ -71,12 +70,12 @@ export const appConfig: ApplicationConfig = {
 				preset: Aura,
 				options: {
 					darkModeSelector: '.dark',
+					cssLayer: {
+						name: 'primeng',
+						order: 'tailwind-base, primeng, tailwind-utilities',
+					},
 				},
 			},
 		}),
-		provideRouter(
-			routes,
-			withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
-		),
 	],
-}
+};

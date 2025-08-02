@@ -1,5 +1,4 @@
 import {
-	ChangeDetectionStrategy,
 	Component,
 	inject,
 	OnInit,
@@ -27,7 +26,6 @@ import { map } from 'rxjs'
 @UntilDestroy()
 @Component({
 	selector: 'login',
-	standalone: true,
 	imports: [
 		CardModule,
 		InputTextModule,
@@ -37,7 +35,6 @@ import { map } from 'rxjs'
 		ButtonModule,
 	],
 	templateUrl: './login.component.html',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	styles: ['::ng-deep .main{ margin: 15vh 0 }'],
 	host: {
 		class: 'flex align-center justify-center main',

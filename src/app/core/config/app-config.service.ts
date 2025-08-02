@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpBackend, HttpClient } from '@angular/common/http'
-import { Injectable } from '@angular/core'
+import {inject, Injectable} from '@angular/core'
 
 const DEFAULT_CONFIG = {
 	apiUrl: '',
@@ -42,6 +42,7 @@ export class AppConfigService {
 	}
 }
 
-export function initializeApp(appConfig: AppConfigService) {
-	return (): Promise<void> => appConfig.loadConfig()
+export function initializeApp() {
+    const appConfigService = inject(AppConfigService);
+    return appConfigService.loadConfig();
 }

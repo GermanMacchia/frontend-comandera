@@ -6,16 +6,14 @@ import {
 	signal,
 } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { Mesa } from '@src/app/core/interfaces/interfaces'
+import { Mesa } from '@interfaces'
 import { selectAreas } from '@src/app/core/store/selectors'
 
 import { ProgressSpinnerModule } from 'primeng/progressspinner'
 @Component({
 	selector: 'mesas-display',
-	standalone: true,
 	imports: [ProgressSpinnerModule],
 	templateUrl: './mesas-display.component.html',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	host: {
 		class: 'flex flex-col h-dvh',
 	},

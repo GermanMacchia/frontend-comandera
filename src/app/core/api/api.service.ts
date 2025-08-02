@@ -18,9 +18,9 @@ export class ApiService {
 			clave,
 		})
 
-	getArea = (usuario_id: number) => {
+	getData = (usuario_id: number) => {
 		const params = new HttpParams().set('usuario_id', usuario_id)
-		return this.http.get<any>(this.endpoints.areas(this.getApiUrl()), {
+		return this.http.get<any>(this.endpoints.dataUsuario(this.getApiUrl()), {
 			params,
 		})
 	}

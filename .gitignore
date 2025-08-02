@@ -8,6 +8,10 @@
 .vscode
 .angular
 
+/cypress/reports/*
+/cypress/screenshots/*
+
+
 # Node
 /node_modules
 npm-debug.log

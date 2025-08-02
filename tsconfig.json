@@ -3,7 +3,6 @@
 {
 	"compileOnSave": false,
 	"compilerOptions": {
-		"outDir": "./dist/out-tsc",
 		"strict": true,
 		"noImplicitOverride": true,
 		"noPropertyAccessFromIndexSignature": true,
@@ -11,28 +10,51 @@
 		"noFallthroughCasesInSwitch": true,
 		"skipLibCheck": true,
 		"isolatedModules": true,
-		"esModuleInterop": true,
-		"sourceMap": true,
-		"declaration": false,
 		"experimentalDecorators": true,
-		"moduleResolution": "bundler",
 		"importHelpers": true,
 		"target": "ES2022",
-		"module": "ES2022",
-		"lib": ["ES2022", "dom"],
+		"module": "preserve",
 		"paths": {
-			"@src/*": ["./src/*"],
-			"@utils/*": ["./src/app/core/utils/*"],
-			"@api/*": ["./src/app/core/api/*"],
-			"@enums": ["./src/app/core/interfaces/enums"],
-			"@interfaces": ["./src/app/core/interfaces/interfaces"],
-			"@actions": ["./src/app/core/store/actions/index"]
+			"@src/*": [
+				"./src/*"
+			],
+			"@utils/*": [
+				"./src/app/core/utils/*"
+			],
+			"@api/*": [
+				"./src/app/core/api/*"
+			],
+			"@components": [
+				"./src/app/components"
+			],
+			"@views": [
+				"./src/app/views"
+			],
+			"@enums": [
+				"./src/app/core/interfaces/enums"
+			],
+			"@interfaces": [
+				"./src/app/core/interfaces/interfaces"
+			],
+			"@actions": [
+				"./src/app/core/store/actions/index"
+			]
 		}
 	},
 	"angularCompilerOptions": {
 		"enableI18nLegacyMessageIdFormat": false,
 		"strictInjectionParameters": true,
 		"strictInputAccessModifiers": true,
+		"typeCheckHostBindings": true,
 		"strictTemplates": true
-	}
+	},
+	"files": [],
+	"references": [
+		{
+			"path": "./tsconfig.app.json"
+		},
+		{
+			"path": "./tsconfig.spec.json"
+		}
+	]
 }

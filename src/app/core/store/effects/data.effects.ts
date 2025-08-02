@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, map, mergeMap, of } from 'rxjs'
 import { ApiService } from '../../api/api.service'
 import { dataLoading, dataLoadingError, dataLoadingSuccess } from '../actions'
+import { RolesUsuarios } from '@enums'
 
 @Injectable()
 export class DataEffects {
@@ -14,11 +15,13 @@ export class DataEffects {
 		this.actions$.pipe(
 			ofType(dataLoading),
 			mergeMap(({ id, rol }) =>
-				this.apiService.getArea(id).pipe(
+				this.apiService.getData(id).pipe(
 					map(data => dataLoadingSuccess({ data })),
-					catchError(error => of(dataLoadingError({ error }))),
-				),
-			),
-		),
+					catchError(error => of(dataLoadingError({ error })))
+				)
+			)
+		)
 	)
+
+
 }

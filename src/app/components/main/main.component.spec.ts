@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { MainComponent } from './main.component'
+import { provideMockStore} from '@ngrx/store/testing';
+import {mockStore} from '@utils/test-utils';
 
 describe('MainComponent', () => {
 	let fixture: ComponentFixture<MainComponent>
@@ -9,13 +11,16 @@ describe('MainComponent', () => {
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			imports: [MainComponent],
+			providers:[
+				provideMockStore(mockStore)
+			]
 		}).compileComponents()
 
 		fixture = TestBed.createComponent(MainComponent)
 		compiled = fixture.nativeElement as HTMLElement
 		component = fixture.componentInstance
 
-		// fixture.detectChanges()
+		fixture.detectChanges()
 	})
 
 	it('should create component', () => {

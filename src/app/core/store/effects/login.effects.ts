@@ -48,12 +48,7 @@ export class LoginEffects {
 				const { usuario } = data
 				const nombreRol = usuario.rol.nombre
 
-				if (nombreRol === RolesUsuarios.ADMINISTRADOR)
-					return dataLoading({
-						id: usuario.id,
-						rol: nombreRol,
-					})
-				else return dataLoading({ id: usuario.id, rol: nombreRol })
+				 return dataLoading({ id: usuario.id, rol: nombreRol })
 			}),
 		),
 	)

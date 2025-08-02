@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { logout } from '@src/app/core/store/actions'
+import { logout } from '@actions'
 import { MenuItem } from 'primeng/api'
 import { MenubarModule } from 'primeng/menubar'
-import { MesasDisplayComponent } from '../mesas-display/mesas-display.component'
+import { MesasDisplayComponent } from '@src/app/components/mesas-display/mesas-display.component'
+import { AppNavigateDirective } from '@src/app/core/directives/app-navigate.directive'
 
 @Component({
 	selector: 'main',
-	standalone: true,
 	imports: [MenubarModule, MesasDisplayComponent],
 	templateUrl: './main.component.html',
 	styles: [
 		'::ng-deep .p-menubar-mobile-active ul.p-menubar-root-list {width: 50%; left: inherit; right:0;}',
 	],
-	changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class MainComponent {
 	private store = inject(Store)

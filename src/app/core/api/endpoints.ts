@@ -7,5 +7,5 @@ export const endpoints = {
 		login: (api: string) => `${api}/${pre}/${auth}/login`,
 		refresh: (api: string) => `${api}/${pre}/${auth}/login`,
 	},
-	areas: (api: string) => `${api}/${pre}/${areas}`,
+	dataUsuario : (api: string) => `${api}/${pre}/${areas}`,
 }

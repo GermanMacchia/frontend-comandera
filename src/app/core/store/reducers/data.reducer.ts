@@ -30,7 +30,10 @@ const _DataReducer = createReducer(
 	on(dataLoadingSuccess, (state, { data }) => ({
 		...state,
 		loading: false,
-		areas: data,
+		areas: data.areas ?? [],
+		mesasActivas: data.mesasActivas ?? [],
+		mesasCobrando: data.mesasCobrando ?? [],
+		mesasLibres: data.mesasLibres ?? []
 	})),
 
 	on(dataLoadingError, (state, { error }) => ({
