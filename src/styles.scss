@@ -4,3 +4,24 @@
 @tailwind utilities;
 
 @import "primeicons/primeicons.css";
+
+$light-green: #98D2C0;
+$dark-green: #042A2B;
+$moonstone: #5EB1BF;
+$light-cyan: #CDEDF6;
+$crayola: #EF7B45;
+$chili-red: #D84727;
+
+.p-inputtext:focus-visible {
+  outline: 1px solid #5EB1BF;
+}
+
+
+/*
+#98D2C0 Light green
+##042A2B Dark green
+#5EB1BF Moonstone
+#CDEDF6 Light cyan
+#EF7B45 Crayola
+#D84727 Chili red
+ */

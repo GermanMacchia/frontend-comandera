@@ -6,6 +6,11 @@ export const selectUsuario = createSelector(
 	state => state.usuario,
 )
 
+export const loginLoading = createSelector(
+	createFeatureSelector<LoginState>('login'),
+	state => state.loading,
+)
+
 export const selectAreas = createSelector(
 	createFeatureSelector<DataState>('data'),
 	state => state.areas,

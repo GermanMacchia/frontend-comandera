@@ -2,14 +2,14 @@ import {
 	Component,
 	inject,
 	OnInit,
-	signal,
+	signal
 } from '@angular/core'
 
 import {
 	FormBuilder,
 	FormGroup,
 	ReactiveFormsModule,
-	Validators,
+	Validators
 } from '@angular/forms'
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { Store } from '@ngrx/store'
@@ -21,7 +21,7 @@ import { PasswordModule } from 'primeng/password'
 
 import { login } from '@actions'
 import { AppState } from '@src/app/app.reducers'
-import { map } from 'rxjs'
+import { loginLoading } from '@src/app/core/store/selectors'
 
 @UntilDestroy()
 @Component({
@@ -32,17 +32,16 @@ import { map } from 'rxjs'
 		KeyFilterModule,
 		ReactiveFormsModule,
 		PasswordModule,
-		ButtonModule,
+		ButtonModule
 	],
 	templateUrl: './login.component.html',
-	styles: ['::ng-deep .main{ margin: 15vh 0 }'],
 	host: {
-		class: 'flex align-center justify-center main',
-	},
+		class: 'flex justify-center bg-dark-green h-screen'
+	}
 })
 export class LoginComponent implements OnInit {
 	private fb = inject(FormBuilder)
-	private store: Store<AppState> = inject(Store)
+	private store$: Store<AppState> = inject(Store)
 
 	emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 	formGroup: FormGroup
@@ -51,16 +50,15 @@ export class LoginComponent implements OnInit {
 	constructor() {
 		this.formGroup = this.fb.group({
 			email: [null, Validators.required],
-			clave: [null, Validators.required],
+			clave: [null, Validators.required]
 		})
 	}
 
 	ngOnInit(): void {
-		this.store
-			.select('login')
+		this.store$
+			.select(loginLoading)
 			.pipe(
-				map(ele => ele.loading),
-				untilDestroyed(this),
+				untilDestroyed(this)
 			)
 			.subscribe(this.loading.set)
 	}
@@ -68,6 +66,6 @@ export class LoginComponent implements OnInit {
 	login() {
 		if (!this.formGroup.valid) return
 
-		this.store.dispatch(login(this.formGroup.value))
+		this.store$.dispatch(login(this.formGroup.value))
 	}
 }

@@ -37,7 +37,8 @@ export class AuthService {
 
 	getAuthorization = () => JSON.parse(sessionStorage.getItem(ACCESS_VALUES)!)
 
-	refresh = (access_token: string) => {}
+	refresh = (access_token: string) => {
+	}
 
 	private settlePermissions(accessValues: Auth) {
 		this.permissions.loadPermissions([accessValues.user.rol.nombre])
@@ -57,10 +58,10 @@ export class AuthService {
 				this.store.dispatch(
 					dataLoading({
 						id: accessValues.user.id,
-						rol: accessValues.user.rol.nombre,
-					}),
+						rol: accessValues.user.rol.nombre
+					})
 				),
-			1000,
+			1000
 		)
 
 		this.router.navigate([''])
